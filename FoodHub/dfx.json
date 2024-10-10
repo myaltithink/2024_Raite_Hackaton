@@ -1,0 +1,37 @@
+{
+  "canisters": {
+    "FoodHub_backend": {
+      "build": "python -m kybra FoodHub_backend src/FoodHub_backend/src/main.py",
+      "candid": "src/FoodHub_backend/FoodHub_backend.did",
+      "gzip": true,
+      "tech_stack": {
+        "cdk": {
+          "kybra": {}
+        },
+        "language": {
+          "python": {}
+        }
+      },
+      "type": "custom",
+      "wasm": ".kybra/FoodHub_backend/FoodHub_backend.wasm"
+    },
+    "FoodHub_frontend": {
+      "dependencies": [
+        "FoodHub_backend"
+      ],
+      "source": [
+        "src/FoodHub_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "FoodHub_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
