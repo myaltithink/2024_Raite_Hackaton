@@ -14,7 +14,7 @@ This system has been tested on the following platforms:
   - Windows Subsystem for Linux (WSL) [Kali/Ubuntu]
   - Fedora Workstation 40
 - Dependencies
-  - Python v3.10.\*
+  - Python v3.12.\*
     - Kybra v0.5.\*
 
 ## Development Setup
@@ -48,22 +48,22 @@ sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
 
 ### Setting Up Python Environment
 
-Make sure that you have Python 3.10.\* installed on your system.
+Make sure that you have Python 3.12.\* installed on your system.
 
 ```bash
-python3.10 --version  # The command may be `python`, `python3`, or `python3.10`
+python3 --version  # The command may be `python` or `python3`
 
 # If it is not installed, install via apt.
-sudo apt update && sudo apt install python3.10
+sudo apt update && sudo apt install python3 python3-venv
 ```
 
 To make sure that all developers have the same environment, run the following commands:
 
 ```bash
 cd FoodHub/
-python3.10 -m venv env                         # Create virtual environment
-source ./env/bin/activate                      # Activate the virtual environment
-python3.10 -m pip install -r requirements.txt  # Install dependencies
+python3 -m venv env              # Create virtual environment
+source ./env/bin/activate        # Activate the virtual environment
+pip install -r requirements.txt  # Install dependencies
 ```
 
 > [!WARNING]
