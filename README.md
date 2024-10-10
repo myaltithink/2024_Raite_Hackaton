@@ -126,7 +126,7 @@ npm install
 > If not, locate your virtual environment and activate it using...
 >
 > ```bash
-> source venv/bin/activate
+> pyenv activate foodhub
 > ```
 
 Run the replica server,
