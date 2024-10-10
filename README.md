@@ -14,8 +14,10 @@ This system has been tested on the following platforms:
   - Windows Subsystem for Linux (WSL) [Kali/Ubuntu]
   - Fedora Workstation 40
 - Dependencies
-  - Python v3.12.\*
+  - Python v3.10.7
     - Kybra v0.5.\*
+  - NodeJS v16.0.0+
+    - NPM v7.0.0+
 
 ## Development Setup
 
@@ -46,24 +48,31 @@ choose the default installation.
 sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
 ```
 
-### Setting Up Python Environment
+### Setting Up The Python Environment
 
-Make sure that you have Python 3.12.\* installed on your system.
-
-```bash
-python3 --version  # The command may be `python` or `python3`
-
-# If it is not installed, install via apt.
-sudo apt update && sudo apt install python3 python3-venv
-```
-
-To make sure that all developers have the same environment, run the following commands:
+Make sure that you have Python v3.10.7 installed on your system. This version of
+Python is already deprecated and therefore not available in the repositories,
+so we have to compile it ourselves. `pyenv` makes this process easier.
 
 ```bash
-cd FoodHub/
-python3 -m venv env              # Create virtual environment
-source ./env/bin/activate        # Activate the virtual environment
-pip install -r requirements.txt  # Install dependencies
+# Install build dependencies
+# More info: https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+sudo apt update && sudo apt install \
+    curl gcc git make xz-utils \
+    libbz2-dev libffi-dev liblzma-dev libncursesw5-dev \
+    libreadline-dev libssl-dev libsqlite3-dev libxml2-dev \
+    libxmlsec1-dev tk-dev zlib1g-dev
+
+# Install pyenv
+curl https://pyenv.run | bash
+
+# Set up pyenv (assuming you are using bash)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+# Install Python 3.10.7
+pyenv install 3.10.7 --verbose
 ```
 
 > [!WARNING]
@@ -85,6 +94,15 @@ pip install -r requirements.txt  # Install dependencies
 > # or
 > sudo apt-get install libssl-dev
 > ```
+
+To make sure that all developers have the same environment, run the following commands:
+
+```bash
+cd FoodHub/
+pyenv virtualenv 3.10.7 foodhub  # Create a new virtual environment running v3.10.7
+pyenv activate foodhub           # Activate the newly-created virtual environment
+pip install -r requirements.txt  # Install dependencies
+```
 
 ## Local Deployment
 
