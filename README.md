@@ -1,88 +1,144 @@
-# FoodHub (Raite 2024 iThink Hackaton)
+# FoodHub (RAITE 2024 iThink Hackathon)
 
 ## Description
-FoodHub is a system that aims to create a solution for "Zero Hunger", one of the UN's SDGs
 
-## Requirement/s
-- A Working WSL for Windows Systems
-- Python Virtual Environment
+**FoodHub** is a system that aims to create a solution for the United Nation's
+SDG #2, "_Zero Hunger_". This system is intended to be hosted on
+[The Internet Computer](https://internetcomputer.org/) (ICP) blockchain network.
 
-## Setup
-- WSL Installation
-Open command prompt and write
-```
-wsl --install
-```
-##
-- Setting up ICP Hub CLI
-simply run and choose the default installation
-```
+## Requirements
+
+This system has been tested on the following platforms:
+
+- Operating System
+  - Windows Subsystem for Linux (WSL) [Kali/Ubuntu]
+  - Fedora Workstation 40
+- Dependencies
+  - Python v3.10.7
+    - Kybra v0.5.\*
+  - NodeJS v16.0.0+
+    - NPM v7.0.0+
+
+## Development Setup
+
+> [!NOTE]
+>
+> To start developing on a Windows environment, you have to install the
+> [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about)
+> (WSL) feature. On later versions of Windows, you can install WSL by
+> running a single command:
+>
+> ```powershell
+> wsl --install
+> ```
+>
+> By default, this will install the Ubuntu distribution of WSL. Depending
+> on your machine, you might have to perform extra steps to install the
+> feature. Read Microsoft's detailed documentation on how to install WSL [here](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+### Setting Up ICP DFX
+
+`dfx` is the command-line interface for the [IC SDK](https://wiki.internetcomputer.org/wiki/Main_Page).
+
+The command below will install a binary compatible with your operating system,
+and add it to `/home/<username>/.local/share/dfx/`. It is recommended to
+choose the default installation.
+
+```bash
 sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
 ```
-##
-- Setting up python virtual environment
-```
+
+### Setting Up The Python Environment
+
+Make sure that you have Python v3.10.7 installed on your system. This version of
+Python is already deprecated and therefore not available in the repositories,
+so we have to compile it ourselves. `pyenv` makes this process easier.
+
+```bash
+# Install build dependencies
+# More info: https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+sudo apt update && sudo apt install \
+    curl gcc git make xz-utils \
+    libbz2-dev libffi-dev liblzma-dev libncursesw5-dev \
+    libreadline-dev libssl-dev libsqlite3-dev libxml2-dev \
+    libxmlsec1-dev tk-dev zlib1g-dev
+
+# Install pyenv
 curl https://pyenv.run | bash
-~/.pyenv/bin/pyenv install 3.10.7 --verbose
-```
-_Note: There might be some missing packages/modules which is why the --verbose is added so we can see where/why the installation failed_
 
-The missing packages/modules may vary, so just search them out to find what package name they belong to
-```
-Exmaple:
-Error: missing module _ssl
-```
-_ssl belongs to libssl-dev package for debian based system such as Ubuntu.
-To fix the problem run:
-```
-sudo apt install libssl-dev
-or
-sudo apt-get install libssl-dev
-```
-Repeat the command for other missing packages/modules with their respective package name
+# Set up pyenv (assuming you are using bash)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 
-- Creating a virtual environment
-```
-creates an environment folder name "venv"
-~/.pyenv/versions/3.10.7/bin/python -m venv venv
-
-activates the virtual environment
-source venv/bin/activate
-
-installs the required kybra module
-pip install kybra
+# Install Python 3.10.7
+pyenv install 3.10.7 --verbose
 ```
 
-##
+> [!WARNING]
+>
+> There might be some missing packages/modules, resulting to fatal errors.
+>
+> The missing packages/modules may vary, so just search them out to find
+> what package name they belong to. An example of this occurence is...
+>
+> ```text
+> Error: missing module _ssl
+> ```
+>
+> `_ssl` belongs to `libssl-dev` package for Debian-based systems such as
+> Ubuntu. To fix this problem, run:
+>
+> ```bash
+> sudo apt install libssl-dev
+> # or
+> sudo apt-get install libssl-dev
+> ```
 
-## Deployment (local)
-First navigate the terminal to the project directory
+To make sure that all developers have the same environment, run the following commands:
 
-For freshly setup environments first check if there is a problem with dfx by running
+```bash
+cd FoodHub/
+pyenv virtualenv 3.10.7 foodhub  # Create a new virtual environment running v3.10.7
+pyenv activate foodhub           # Activate the newly-created virtual environment
+pip install -r requirements.txt  # Install dependencies
 ```
+
+## Local Deployment
+
+First, navigate the terminal to the project directory. For freshly
+setup environments first check if there is a problem with `dfx` by running...
+
+```bash
 dfx diagnose
 ```
 
-Ensure that the node_modules are install
-If not or missing some dependnecy run the command while inside the directory where the package.json is located
-```
+Ensure that the Node modules are installed. If not, or if it is missing some
+of the dependencies, run the command while inside the directory where the
+`package.json` is located:
+
+```bash
 npm install
 ```
 
-Ensure that the virtual environment is active
-if not locate your virtual environment and activate it using
-```
-source venv/bin/activate
-```
+> [!NOTE]
+> Ensure that the virtual environment is active.
+> If not, locate your virtual environment and activate it using...
+>
+> ```bash
+> pyenv activate foodhub
+> ```
 
-Run the replica server
-```
+Run the replica server,
+
+```bash
 dfx start
-or
+# or
 dfx start --background
 ```
 
-Then run
-```
+Then run:
+
+```bash
 dfx deploy
 ```
