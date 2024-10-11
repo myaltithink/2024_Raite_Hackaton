@@ -9,6 +9,7 @@
 
 # dfx temporary files
 .dfx/
+.kybra/
 
 # generated files
 **/declarations/
