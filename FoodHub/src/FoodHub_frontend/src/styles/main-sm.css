@@ -55,6 +55,10 @@
     .register-container {
         height: 80vh;
     }
+
+    .public-listing .items{
+        width: 95vw;
+    }
 }
 
 @media screen and (max-width: 375px) {

@@ -18,10 +18,6 @@ function Login(){
         })
     }
 
-    useEffect(() => {
-        document.body.style.setProperty("overflow", "hidden")
-    }, [])
-
     return (
         <div className="login-container flex">
             <div className="banner"></div>

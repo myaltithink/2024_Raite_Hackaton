@@ -119,7 +119,7 @@ a {
 }
 
 .login-container, .register-container {
-    height: 92vh;
+    height: 94vh;
 }
 
 .login-container .form, .register-container .form {
@@ -155,4 +155,28 @@ a {
     width: 50vw;
     background-size: cover;
     background-position: center;
+}
+
+.food-listing .food {
+    border: solid 2px rgb(109, 108, 108);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.food-listing .img img {
+    height: 150px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.food-listing .contents {
+    margin: 10px;
+}
+
+.food-listing .search {
+    margin: 10px;
+}
+
+.public-listing .items{
+    width: 50vw;
 }
