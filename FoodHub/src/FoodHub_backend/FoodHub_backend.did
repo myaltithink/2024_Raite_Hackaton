@@ -1,1 +1,6 @@
-service : () -> { greet : (text) -> (text) query; sample : () -> (text) query }
+type Test = record { id : principal; item : blob };
+service : () -> {
+  greet : (text) -> (text) query;
+  sample : () -> (text) query;
+  upload : (blob) -> (Test);
+}
