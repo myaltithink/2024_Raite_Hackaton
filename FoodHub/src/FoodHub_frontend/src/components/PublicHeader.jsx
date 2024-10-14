@@ -4,9 +4,11 @@ function PublicHeader(){
 
     return (
         <div className="header flex">
-            <Link to="/">
-                <img src="logo.svg" alt="application logo" className="logo" />
-            </Link>
+            <div className="logo-container">
+                <Link to="/">
+                    <img src="logo.svg" alt="application logo" className="logo" />
+                </Link>
+            </div>
 
             <ol className="navigation center-parent flex">
                 <Link to="/login" className="login link">
