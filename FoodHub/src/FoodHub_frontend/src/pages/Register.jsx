@@ -5,6 +5,7 @@ import { useState } from "react";
 import { isEmpty, isFormValid } from "../utils/Utils";
 import { ModalBody, ModalFooter, ModalHeader, ModalTitle } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
+import { FoodHub_backend } from 'declarations/FoodHub_backend';
 
 function Register (){
 
@@ -56,9 +57,13 @@ function Register (){
             toggleModal();
             return;
         }
-
+        
         // proceed to backend operation beyond this point
         console.log("no error can continue")
+
+        FoodHub_backend.registermethod(JSON.stringify(details)).then(data => {
+            console.log(data);
+        })
 
     }
 

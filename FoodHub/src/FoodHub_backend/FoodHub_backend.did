@@ -1,6 +1,9 @@
-type Test = record { id : principal; item : blob };
+
 service : () -> {
   greet : (text) -> (text) query;
+  registermethod : (text) -> (text);
   sample : () -> (text) query;
+  type Test = record { id : principal; item : blob };
   upload : (blob) -> (Test);
+
 }
