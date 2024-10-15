@@ -3,7 +3,6 @@ import PublicHeader from "./components/PublicHeader";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ImgUpload from "./experimental/img_upload";
 
 const App = () => {
 
@@ -16,7 +15,6 @@ const App = () => {
           <Route path="/" index element={<HomePage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path="/upload-test" element={<ImgUpload/>}/>
         </Routes>
       </BrowserRouter>
     </>

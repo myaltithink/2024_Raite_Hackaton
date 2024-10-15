@@ -1,8 +1,20 @@
-from kybra import query
-from experimental.try_upload import sampleprint
-from http.Router import Router
-from http.HttpControllers import HttpControllers;
-from http.HttpModels import HttpRequest, HttpResponse
+from kybra import (
+    query, 
+    update,
+    blob,
+    ic,
+    nat64,
+    Opt,
+    Principal,
+    Record,
+    StableBTreeMap,
+    Variant,
+    Vec,
+)
+import json
+import User
+from utils import is_username_unique, generate_id
+from storage import users
 
 @query
 def greet(name: str) -> str:
@@ -13,10 +25,27 @@ def sample() -> str:
     print("something something")
     return "some has been done"
 
-router = Router()
+# register
+@update
+def registermethod(register_string: str) -> str: 
 
-router.add_route("GET", "/counter", HttpControllers.hello_world)
+    #decode to json
+    data = json.loads(register_string)
 
-@query
-def http_request(req: HttpRequest) -> HttpResponse:
-    return router.dispatch(req)
+    if (is_username_unique(data["username"], users)):   
+        id = generate_id()
+        user: User = {
+            "id": id,
+            "firstName": data["firstName"],
+            "lastName": data["lastName"],
+            "password": data["password"],
+            "hasOrganization": data["hasOrganization"],
+            "organizationName": data["organizationName"],
+            "organizationAddress": data["organizationAddress"],
+            "username": data["username"],
+        }
+
+        users.insert(user["id"], user)
+    else:
+        return "Username is already registered"
+    return json.dumps("user successfully inserted")
