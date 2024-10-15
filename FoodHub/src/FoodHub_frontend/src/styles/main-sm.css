@@ -1,4 +1,4 @@
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 675px) {
     .header {
         display: block;
     }
@@ -54,6 +54,14 @@
 
     .register-container {
         height: 80vh;
+    }
+
+    .public-listing .items{
+        width: 95vw;
+    }
+
+    .profile-container .controls .control-item {
+        width: 100%;
     }
 }
 

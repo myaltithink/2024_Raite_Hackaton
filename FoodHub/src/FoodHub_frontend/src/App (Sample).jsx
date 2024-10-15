@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FoodHub_backend } from 'declarations/FoodHub_backend';
 
-function App() {
+function AppSample() {
   const [greeting, setGreeting] = useState('');
 
   const [something, setSomething] = useState("");
@@ -26,6 +26,43 @@ function App() {
     })
   }
 
+  const [filedata, setfiledata] = useState(null);
+
+  const filechange = (e) => {
+    setfiledata(e.target.files[0])
+  }
+
+  const sendfile = async () => {
+    console.log("sending file")
+    const byteData = await getAsByteArray(filedata)
+    console.log(byteData)
+    FoodHub_backend.upload(byteData).then((result) => {
+      console.log("upload success")
+      console.log(result)
+    }).catch((e) => {
+      console.log("something went wrong")
+      console.log(e)
+    })
+  }
+
+  async function getAsByteArray(file) {
+    return new Uint8Array(await readFile(file))
+  }
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      // Create file reader
+      let reader = new FileReader()
+  
+      // Register event listeners
+      reader.addEventListener("loadend", e => resolve(e.target.result))
+      reader.addEventListener("error", reject)
+  
+      // Read file
+      reader.readAsArrayBuffer(file)
+    })
+  }
+
   return (
     <main>
       <img src="/logo2.svg" alt="DFINITY logo" />
@@ -36,7 +73,8 @@ function App() {
         <input id="name" alt="Name" type="text" />
         <button type="submit">Click Me!</button>
       </form>
-      <button type='button' onClick={handleSomething}>do something</button>
+      <input type='file' onChange={filechange}/>
+      <button type='button' onClick={sendfile}>upload</button>
       <h2>somethins</h2>
       <p>{something}</p>
       <section id="greeting">{greeting}</section>
@@ -44,4 +82,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppSample;

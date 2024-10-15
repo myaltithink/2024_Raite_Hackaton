@@ -78,8 +78,18 @@ a {
     color: #f5f5f5;
 }
 
+.header .logout li{
+    background: rgb(185, 0, 0);
+    color: #f5f5f5;
+}
+
 .header .link li:hover {
     background-color: rgb(2, 75, 134);
+    color: #f5f5f5;
+}
+
+.header .logout li:hover{
+    background: rgb(126, 1, 1);
     color: #f5f5f5;
 }
 
@@ -119,7 +129,7 @@ a {
 }
 
 .login-container, .register-container {
-    height: 92vh;
+    height: 94vh;
 }
 
 .login-container .form, .register-container .form {
@@ -155,4 +165,54 @@ a {
     width: 50vw;
     background-size: cover;
     background-position: center;
+}
+
+.food-listing .food {
+    border: solid 2px rgb(109, 108, 108);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.food-listing .img img {
+    height: 150px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.food-listing .contents {
+    margin: 10px;
+}
+
+.food-listing .search {
+    margin: 10px;
+}
+
+.public-listing .items{
+    width: 50vw;
+}
+
+.profile-container .profile {
+    border: solid 2px rgb(15 92 155);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 30px;
+    width: 50vw;
+}
+
+.profile-container {
+    height: 90vh;
+}
+
+.profile-container .field {
+    margin: 10px 0px;
+}
+
+.profile-container .controls {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+.profile-container .control-item {
+    margin: 0px 10px;
 }

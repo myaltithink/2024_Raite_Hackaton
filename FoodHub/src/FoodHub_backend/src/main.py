@@ -1,3 +1,4 @@
+
 from kybra import (
     query, 
     update,
@@ -15,6 +16,17 @@ import json
 import User
 from utils import is_username_unique, generate_id
 from storage import users
+import secrets
+
+
+class Test(Record):
+    id: Principal
+    item: blob
+
+sampleST = StableBTreeMap[Principal, Test] (
+    memory_id=1, max_key_size=38, max_value_size=100_000_000
+)
+
 
 @query
 def greet(name: str) -> str:
@@ -49,3 +61,21 @@ def registermethod(register_string: str) -> str:
     else:
         return "Username is already registered"
     return json.dumps("user successfully inserted")
+
+@update
+def upload(image: blob) -> Test:
+    id = generate_id()
+    
+    item : Test = {
+        "id": id,
+        "item": image
+    }
+    
+    sampleST.insert(item["id"], item)
+    return item
+
+
+def generate_id() -> Principal:
+    random_byte = secrets.token_bytes(29)
+    return Principal.from_hex(random_byte.hex())
+

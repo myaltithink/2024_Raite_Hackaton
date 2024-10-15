@@ -1,3 +1,14 @@
+@media screen and (max-width: 1250px) {
+    .public-listing .items{
+        width: 80vw;
+    }
+
+    .profile-container .profile {
+        width: 80vw;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
     .home .img {
         display: none;
@@ -20,7 +31,14 @@
     .header .link  li{
         font-size: 11px;
     }
+    
+    .public-listing .items{
+        width: 90vw;
+    }
 
+    .profile-container .profile {
+        width: 90vw;
+    }
 }
 
 @media screen and (max-width: 680px) {
