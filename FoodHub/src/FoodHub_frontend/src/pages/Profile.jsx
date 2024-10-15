@@ -2,7 +2,9 @@ import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import PasswordField from "../components/PasswordField";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faPencilAlt, faX } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faClose, faPencilAlt, faX } from "@fortawesome/free-solid-svg-icons";
+import { isFormValid } from "../utils/Utils";
+import { Modal } from "react-bootstrap";
 
 function Profile(props){
 
@@ -16,7 +18,7 @@ function Profile(props){
         organizationAddress: ''
     });
 
-    const [newDetails, setNewDetails] = useState({
+    const [prevDetails, setPrevDetails] = useState({
         username: "",
         password: "",
         firstName: '',
@@ -26,14 +28,33 @@ function Profile(props){
         organizationAddress: ''
     });
 
+    const [modal, setModal] = useState({
+        show: false,
+        message: []
+    })
+
     const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         //retrive user data
     })
 
+    const toggleModal = (messages = []) => {
+        setModal({
+            show: !modal.show,
+            message: messages
+        })
+    }
+
     const toggleEdit = () => {
-        setIsEdit(!isEdit);
+        const newState = !isEdit;
+        if(newState) {
+            setPrevDetails({...details})
+        }else {
+            setDetails({...prevDetails})
+            setPrevDetails({})
+        }
+        setIsEdit(newState);
     }
 
     const handleInputChange = (e) => {
@@ -49,6 +70,16 @@ function Profile(props){
             ...details,
             hasOrganization: e.target.checked
         })
+    }
+
+    const handleSubmit = () => {
+        const messages = isFormValid(details, false);
+        if(messages.length != 0) {
+            toggleModal(messages)
+            return;
+        }
+
+        console.log("no error proceed to data submission")
     }
 
     return (
@@ -104,7 +135,7 @@ function Profile(props){
 
                     
                 <FormControlLabel 
-                    control={<Checkbox disabled={!isEdit} onChange={handleCheckboxChange}/>} 
+                    control={<Checkbox disabled={!isEdit} checked={details.hasOrganization} onChange={handleCheckboxChange}/>} 
                     label="Do you belong to an organization?"/>
                 {details.hasOrganization?
                     <>
@@ -139,7 +170,6 @@ function Profile(props){
 
 
                 <div className="controls">
-
                     {isEdit?
                         <>
                             <Button onClick={toggleEdit} variant="contained" color="error" className="control-item">
@@ -147,7 +177,7 @@ function Profile(props){
                                 Cancel
                             </Button>
 
-                            <Button variant="contained" color="success" className="control-item">
+                            <Button onClick={handleSubmit} variant="contained" color="success" className="control-item">
                                 <FontAwesomeIcon icon={faCheck} className="me-2"/>
                                 Save
                             </Button>
@@ -164,6 +194,26 @@ function Profile(props){
 
                 </div>
             </div>
+            <Modal show={modal.show} onHide={() => toggleModal()}>
+                <Modal.Header>
+                    <Modal.Title>Notice!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <p>Failed to save the profile information due to the following:</p>
+                    <ul>
+                        {modal.message.map((message, index) => (
+                            <li key={index}>
+                                {message}
+                            </li>
+                        ))}
+                    </ul>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button onClick={() => toggleModal()} variant="contained" color="secondary"><FontAwesomeIcon icon={faClose} className="me-2"/> Close</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 

@@ -59,6 +59,10 @@
     .public-listing .items{
         width: 95vw;
     }
+
+    .profile-container .controls .control-item {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 375px) {

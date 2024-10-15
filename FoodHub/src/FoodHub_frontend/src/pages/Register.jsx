@@ -2,7 +2,7 @@ import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import PasswordField from "../components/PasswordField";
 import { Form, Link } from "react-router-dom";
 import { useState } from "react";
-import { isEmpty } from "../utils/Utils";
+import { isEmpty, isFormValid } from "../utils/Utils";
 import { ModalBody, ModalFooter, ModalHeader, ModalTitle } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 
@@ -45,41 +45,9 @@ function Register (){
         })
     }
 
-    const isFormValid = () => {
-        const message = []
-        const hasOrg = details.hasOrganization;
-        const exclude = ["organizationName", "organizationAddress"];
-
-        for (const [id, value] of Object.entries(details)) {
-
-            if(hasOrg && exclude.includes(id)){
-                if(isEmpty(value)){
-                    message.push(`Empty Field on ${id}`);
-                }
-                continue;
-            }
-
-            if(isEmpty(value) && !exclude.includes(id)){
-                message.push(`Empty Field on ${id}`);
-                continue;
-            }
-        }
-
-        if(details.password.length < 8){
-            message.push("Password must be at least 8 characters")
-        }
-
-        if(details.password !== details.confirmPassword){
-            message.push("Password did not match");
-        }
-
-        return message;
-
-    }
-
     const handleSubmit = () => {
         
-        const checkResult = isFormValid();
+        const checkResult = isFormValid(details);
         if(checkResult.length != 0){
             setHasError({
                 error: true,
