@@ -58,12 +58,17 @@ function Register (){
             return;
         }
         
-        // proceed to backend operation beyond this point
         console.log("no error can continue")
 
         FoodHub_backend.registermethod(JSON.stringify(details)).then(data => {
             console.log(data);
-        })
+        }).catch((e) => {
+            setHasError({
+                error: true,
+                message: [e.message]
+            })
+            toggleModal();
+        });
 
     }
 

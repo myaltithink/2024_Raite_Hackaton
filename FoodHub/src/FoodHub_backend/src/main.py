@@ -10,24 +10,17 @@ from kybra import (
     Record,
     StableBTreeMap,
     Variant,
-    Vec,
+    Vec
 )
 import json
-import User
-from utils import is_username_unique, generate_id
 from storage import users
-import secrets
-
+from utils import is_username_unique, generate_id
+import User
 
 class Test(Record):
     id: Principal
     item: blob
-
-sampleST = StableBTreeMap[Principal, Test] (
-    memory_id=1, max_key_size=38, max_value_size=100_000_000
-)
-
-
+    
 @query
 def greet(name: str) -> str:
     return f"Hello, {name}!"
@@ -40,11 +33,11 @@ def sample() -> str:
 # register
 @update
 def registermethod(register_string: str) -> str: 
-
+    result = {}
     #decode to json
     data = json.loads(register_string)
-
-    if (is_username_unique(data["username"], users)):   
+    
+    if (is_username_unique(data["username"])):   
         id = generate_id()
         user: User = {
             "id": id,
@@ -56,11 +49,20 @@ def registermethod(register_string: str) -> str:
             "organizationAddress": data["organizationAddress"],
             "username": data["username"],
         }
-
         users.insert(user["id"], user)
+        result["registered"]= True
     else:
-        return "Username is already registered"
-    return json.dumps("user successfully inserted")
+        result["registered"] = False
+        result["message"] = "Username is already registered"
+    return json.dumps(result)
+
+@query
+def getImage(id: Principal) -> Opt[Test]:
+    return sampleST.get(id)
+
+@query
+def getAllImages() -> Vec[Test]:
+    return sampleST.values()
 
 @update
 def upload(image: blob) -> Test:
@@ -75,7 +77,7 @@ def upload(image: blob) -> Test:
     return item
 
 
-def generate_id() -> Principal:
-    random_byte = secrets.token_bytes(29)
-    return Principal.from_hex(random_byte.hex())
+sampleST = StableBTreeMap[Principal, Test] (
+    memory_id=1, max_key_size=38, max_value_size=100_000_000
+)
 

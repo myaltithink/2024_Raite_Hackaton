@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FoodHub_backend } from 'declarations/FoodHub_backend';
+import { TextField } from '@mui/material';
 
 function AppSample() {
   const [greeting, setGreeting] = useState('');
@@ -63,6 +64,34 @@ function AppSample() {
     })
   }
 
+  const [id, setId] = useState('')
+
+  const idChanged = (e) => {
+    setId(e.target.value)
+  }
+
+  const getallimage = () => {
+    FoodHub_backend.getAllImages()
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((e) => {
+      console.log("failed to get images")
+      console.log(e.message)
+    })
+  }
+
+  const getimage = () => {
+    FoodHub_backend.getImage(id)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((e) => {
+      console.log("failed to get image")
+      console.log(e.message)
+    })
+  }
+
   return (
     <main>
       <img src="/logo2.svg" alt="DFINITY logo" />
@@ -75,6 +104,10 @@ function AppSample() {
       </form>
       <input type='file' onChange={filechange}/>
       <button type='button' onClick={sendfile}>upload</button>
+
+      <TextField variant='outlined' label="ID" onChange={idChanged}/>
+      <button type='button' onClick={getimage}>get image</button>
+      <button type='button' onClick={getallimage}>get all images</button>
       <h2>somethins</h2>
       <p>{something}</p>
       <section id="greeting">{greeting}</section>

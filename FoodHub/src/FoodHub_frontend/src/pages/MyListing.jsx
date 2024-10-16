@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
+import FoodListing from "../components/FoodListing";
+
 function MyListing(props) {
 
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        //retrive user posts
+        
+    })
+
     return(
-        <>
-            user listing
-        </>
+        <div className="my-listing">
+            <FoodListing items={items}/>
+        </div>
     )
 }
 

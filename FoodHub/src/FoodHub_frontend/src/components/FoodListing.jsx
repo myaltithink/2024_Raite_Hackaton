@@ -13,16 +13,23 @@ function FoodListing(props){
     }, []);
 
     const handleSearch = (e) => {
-        const value = e.target.value;
-        const newDisplay = [];
+        const value = e.target.value; //search value
+        const newDisplay = []; // new display collection
+
+        // loop through all the items
         for (const item of items) {
+            // loop through all the metadata of the current item
             for (const data of Object.values(item)) {
+                // checks if the search value has a match on the current metadata
                 if(data.includes(value)){
+                    // adds the data to the new display collection
                     newDisplay.push(item);
+                    // stops the metadata loop to proceed to the next item, this is to avoid duplicate
                     break;
                 }
             }
         }
+        // give the new collection to the "display" state so the frontend can render the search result
         setDisplay(newDisplay);
     }
 
