@@ -12,7 +12,7 @@ import AppSample from "./App (Sample)";
 
 const App = () => {
 
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
 
   const setAuth = (auth) => {
     setAuthenticated(auth);

@@ -63,6 +63,32 @@
     .profile-container .controls .control-item {
         width: 100%;
     }
+
+    .my-listing > div {
+        width: 90vw;
+    }
+
+    .food-listing .search {
+        display: block;
+    }
+
+    .food-listing .search-field, .food-listing .add-item {
+        width: 100% !important;
+        margin: 5px 0px;
+    }
+
+    .food-listing .food {
+        display: block;
+    }
+
+    .food-listing .food > div {
+        display: block;
+    }
+
+    .food-listing .food > div img {
+        width: 95%;
+    }
+
 }
 
 @media screen and (max-width: 375px) {

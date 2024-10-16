@@ -171,6 +171,7 @@ a {
     border: solid 2px rgb(109, 108, 108);
     margin: 10px;
     border-radius: 10px;
+    justify-content: space-between;
 }
 
 .food-listing .img img {
@@ -185,6 +186,24 @@ a {
 
 .food-listing .search {
     margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.food-listing .search .has-control {
+    width: calc(100% - 125px)
+}
+
+.food-listing .search .no-control {
+    width: 100%
+}
+
+.food-listing .controls {
+    padding: 10px;
+}
+
+.food-listing .controls .food-control {
+    margin: 5px 0px;
 }
 
 .public-listing .items{
@@ -215,4 +234,8 @@ a {
 
 .profile-container .control-item {
     margin: 0px 10px;
+}
+
+.my-listing>div {
+    width: 60vw;
 }

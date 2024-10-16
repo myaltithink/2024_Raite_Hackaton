@@ -7,6 +7,10 @@
         width: 80vw;
     }
 
+    .my-listing >div {
+        width: 80vw;
+    }
+
 }
 
 @media screen and (max-width: 768px) {
