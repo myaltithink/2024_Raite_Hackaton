@@ -31,7 +31,7 @@ const App = () => {
         <Routes>
           <Route path="/sample" element={<AppSample/>}/>
           <Route path="/" index element={<HomePage/>}/>
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/login" element={<Login setAuthContext={toggleAuthContext}/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/listing" element={<PublicListing/>}/>
           <Route path="/profile" element={<AuthRoute isAuthenticated={authContext.authenticated} component={<Profile/>}/>}/>

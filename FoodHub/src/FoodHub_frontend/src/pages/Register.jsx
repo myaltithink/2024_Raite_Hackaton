@@ -1,11 +1,13 @@
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import PasswordField from "../components/PasswordField";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { isEmpty, isFormValid } from "../utils/Utils";
 import { ModalBody, ModalFooter, ModalHeader, ModalTitle } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { FoodHub_backend } from 'declarations/FoodHub_backend';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 function Register (){
 
@@ -25,11 +27,15 @@ function Register (){
         message: []
     })
 
+    const navigate = useNavigate();
+
     const[showModal, setShowModal] = useState(false);
 
     const toggleModal = () => {
         setShowModal(!showModal);
     }
+
+    const [successModal, setSuccessModal] = useState(false)
 
     const handleInputChange = (e) => {
         const {id, value} = e.target;
@@ -57,11 +63,12 @@ function Register (){
             toggleModal();
             return;
         }
-        
-        console.log("no error can continue")
 
-        FoodHub_backend.registermethod(JSON.stringify(details)).then(data => {
-            console.log(data);
+        FoodHub_backend.registermethod(JSON.stringify(details)).then(response => {
+            const res = JSON.parse(response)
+            if(!res.registered) throw new Error(res.message)
+            
+            toggleSuccessModal()
         }).catch((e) => {
             setHasError({
                 error: true,
@@ -70,6 +77,14 @@ function Register (){
             toggleModal();
         });
 
+    }
+
+    const toggleSuccessModal = () => {
+        setSuccessModal(!successModal)
+    }
+
+    const navigateToLogin = () => {
+        navigate("/login")
     }
 
     return (
@@ -146,6 +161,21 @@ function Register (){
                     <p>Already have an account? <Link to="/login" style={{color: "rgb(152 11 255)"}}><u>Sign In</u></Link></p>
                 </div>
             </div>
+            <Modal show={successModal} onHide={navigateToLogin}>
+                <ModalHeader>
+                    <ModalTitle>Registration Success</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <p>Registration has been accepted</p>
+                    <p>You may now login your account</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="contained" color="secondary" onClick={navigateToLogin}>
+                        <FontAwesomeIcon icon={faClose} className="me-2"/>
+                        Close
+                    </Button>
+                </ModalFooter>
+            </Modal>
             <Modal show={showModal} onHide={toggleModal}>
                 <ModalHeader>
                     <ModalTitle>
