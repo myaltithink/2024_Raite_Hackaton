@@ -2,6 +2,7 @@ import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import PasswordField from "../components/PasswordField";
 import { Link } from "react-router-dom";
+import { FoodHub_backend } from 'declarations/FoodHub_backend';
 
 function Login(){
 
@@ -15,6 +16,20 @@ function Login(){
         setDetails({
             ...details,
             [id]: value
+        })
+    }
+
+    const handleSubmit = () => {
+        if (details.username.trim().length == 0){
+            console.log("empty username");
+            return;
+        }
+        if (details.password.trim().length == 0){
+            console.log("empty password")
+            return;
+        }
+        FoodHub_backend.loginmethod(JSON.stringify(details)).then((e) => {
+            console.log(e);
         })
     }
 
@@ -37,7 +52,9 @@ function Login(){
                         value={details.password} 
                         changed={handleInputChange}/>
                         
-                    <Button variant="contained" fullWidth>Login</Button>
+                    <Button variant="contained" fullWidth
+                        onClick={handleSubmit}
+                    >Login</Button>
                     <br /><br />
                     <p>Doesn't have an account yet? <Link to="/register" style={{color: "rgb(152 11 255)"}}><u>Sign Up</u></Link></p>
                 </div>
