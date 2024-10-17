@@ -3,6 +3,7 @@ service : () -> {
   getAllImages : () -> (vec Test) query;
   getImage : (principal) -> (opt Test) query;
   greet : (text) -> (text) query;
+  loginmethod : (text) -> (text);
   registermethod : (text) -> (text);
   sample : () -> (text) query;
   upload : (blob) -> (Test);

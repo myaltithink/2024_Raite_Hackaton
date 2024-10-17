@@ -14,7 +14,7 @@ from kybra import (
 )
 import json
 from storage import users
-from utils import is_username_unique, generate_id
+from utils import is_username_unique, generate_id, get_user
 import User
 
 class Test(Record):
@@ -56,6 +56,26 @@ def registermethod(register_string: str) -> str:
         result["message"] = "Username is already registered"
     return json.dumps(result)
 
+#login
+@update
+def loginmethod(login_payload: str) -> str:
+    data = json.loads(login_payload)
+    result = {}
+    user = get_user(data["username"])
+
+    if(user == None):
+        result["logged"] = False
+        result["message"] = "Username is not registered"
+    else:
+        if(user["password"] != data["password"]):
+            result["logged"] = False
+            result["message"] = "Password is incorrect"
+        else:
+            result["logged"] = True
+            result["message"] = "successful login"
+            result["token"] = user["username"]
+    return json.dumps(result)
+
 @query
 def getImage(id: Principal) -> Opt[Test]:
     return sampleST.get(id)
@@ -75,7 +95,6 @@ def upload(image: blob) -> Test:
     
     sampleST.insert(item["id"], item)
     return item
-
 
 sampleST = StableBTreeMap[Principal, Test] (
     memory_id=1, max_key_size=38, max_value_size=100_000_000
