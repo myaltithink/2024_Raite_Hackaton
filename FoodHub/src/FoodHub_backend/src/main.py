@@ -5,17 +5,27 @@ from kybra import (
     blob,
     ic,
     nat64,
+    nat8,
     Opt,
     Principal,
     Record,
     StableBTreeMap,
     Variant,
-    Vec
+    Vec,
 )
+
 import json
 from storage import users
-from utils import is_username_unique, generate_id, get_user
+from utils import (
+    is_username_unique, 
+    generate_id, 
+    get_user,
+    encrypt,
+    decrypt,
+    generate_key
+)
 import User
+
 
 class Test(Record):
     id: Principal
@@ -73,7 +83,27 @@ def loginmethod(login_payload: str) -> str:
         else:
             result["logged"] = True
             result["message"] = "successful login"
-            result["token"] = user["username"]
+            result["key"] = generate_key()
+            user.pop("id")
+            result["loggeduser"] = encrypt(user, result["key"])
+            # will return { logged: true, message: "successful login", loggeduser: <some encrypted token>, key: <generated key> }
+    return json.dumps(result)
+
+#Authenticated route, pls include (payload, token, key) for every authenticated route.
+# payload for anything submitted (serialized form values)
+
+@query
+def retrieve_profile(token: Vec[nat8], key: Vec[nat8]) -> str:
+
+    result = {}
+    
+    if (not token and not key):
+        result["message"] = "Token and Key are required"
+        
+    
+    user_str = decrypt(token, key)
+    result["message"] = "retrieved user profile successfully"
+    result["payload"] = user_str
     return json.dumps(result)
 
 @query
