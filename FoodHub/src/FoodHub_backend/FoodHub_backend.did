@@ -5,7 +5,7 @@ service : () -> {
   greet : (text) -> (text) query;
   loginmethod : (text) -> (text);
   registermethod : (text) -> (text);
-  retrieve_profile : (blob, blob) -> (text) query;
+  retrieve_profile : (text) -> (text) query;
   sample : () -> (text) query;
   upload : (blob) -> (Test);
 }

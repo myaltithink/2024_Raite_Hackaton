@@ -20,9 +20,7 @@ from utils import (
     is_username_unique, 
     generate_id, 
     get_user,
-    encrypt,
-    decrypt,
-    generate_key
+    update_user
 )
 import User
 
@@ -83,29 +81,34 @@ def loginmethod(login_payload: str) -> str:
         else:
             result["logged"] = True
             result["message"] = "successful login"
-            result["key"] = generate_key()
-            user.pop("id")
-            result["loggeduser"] = encrypt(user, result["key"])
-            # will return { logged: true, message: "successful login", loggeduser: <some encrypted token>, key: <generated key> }
+            result["token"] = user["username"]
+            # will return { logged: true, message: "successful login", loggeduser: <username> }
     return json.dumps(result)
 
-#Authenticated route, pls include (payload, token, key) for every authenticated route.
-# payload for anything submitted (serialized form values)
-
 @query
-def retrieve_profile(token: Vec[nat8], key: Vec[nat8]) -> str:
+def retrieve_profile(username: str) -> str:
 
     result = {}
     
-    if (not token and not key):
-        result["message"] = "Token and Key are required"
-        
-    
-    user_str = decrypt(token, key)
-    result["message"] = "retrieved user profile successfully"
-    result["payload"] = user_str
+    if (not username):
+        result["message"] = "not authenticated"
+    else:
+        user = get_user(username)
+        if (user):
+            result["message"] = "retrieved user profile successfully"
+            user.pop("id")
+            result["payload"] = user
+        else:
+            result["message"] = "user profile not found"
     return json.dumps(result)
 
+@update
+def update_profile(username: str, payload: str) -> str:
+    result = {}
+    if (not username):
+        result["message"] = "not authenticated"
+    else:
+        update_user(username, payload)
 @query
 def getImage(id: Principal) -> Opt[Test]:
     return sampleST.get(id)

@@ -38,7 +38,7 @@ function Profile(props){
 
     useEffect(() => {
         //retrive user data
-        FoodHub_backend.retrieve_profile(prop.authContext.principal.token, prop.authContext.principal.key).then((e) => {
+        FoodHub_backend.retrieve_profile(prop.authContext.principal).then((e) => {
             console.log(e);
         })
     }, [])

@@ -50,10 +50,7 @@ function Login(props){
             if(!res.logged){
                 throw new Error(res.message)
             }
-            props.setAuthContext(true, {
-                key: res.key,
-                token: res.token
-            })
+            props.setAuthContext(true, res.token)
             navigate("/my-listing")
         })
         .catch((e) => {
